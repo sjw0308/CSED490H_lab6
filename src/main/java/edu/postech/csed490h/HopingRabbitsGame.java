@@ -131,6 +131,9 @@ public class HopingRabbitsGame {
      */
     boolean isStuck() {
         String currentGameState = this.getState();
+        if (isGoal()){
+            return true;
+        }
         int movableRabbitPosition = currentGameState.indexOf("x_");
         if (isValidPosition(movableRabbitPosition) && isValidPosition(movableRabbitPosition+1)) {
             return true;
