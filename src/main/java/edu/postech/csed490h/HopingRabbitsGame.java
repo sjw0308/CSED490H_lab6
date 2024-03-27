@@ -132,11 +132,11 @@ public class HopingRabbitsGame {
     boolean isStuck() {
         String currentGameState = this.getState();
         int movableRabbitPosition = currentGameState.indexOf("x_");
-        if (0 <= movableRabbitPosition && movableRabbitPosition < numPositionInGame) {
+        if (isValidPosition(movableRabbitPosition) && isValidPosition(movableRabbitPosition+1)) {
             return true;
         }
         movableRabbitPosition = currentGameState.indexOf("_o");
-        if (0 <= movableRabbitPosition && movableRabbitPosition < numPositionInGame) {
+        if (isValidPosition(movableRabbitPosition) && isValidPosition(movableRabbitPosition+1)) {
             return true;
         }
         return false;
