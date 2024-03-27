@@ -103,6 +103,18 @@ public class HopingRabbitsGame {
         // Check if rabbit can jump (o/x and empty position in front of x/o)
         // And if rabbit can jump, jump and update game state
 
+        if (rabbit == Rabbit.X) {
+            movableRabbitPosition = currentGameState.indexOf("xo_");
+            if (tryUpdatingRabbitPosition(rabbit, movableRabbitPosition, movableRabbitPosition + 2)) {
+                return true;
+            }
+        } else {
+            movableRabbitPosition = currentGameState.indexOf("_xo");
+            if (tryUpdatingRabbitPosition(rabbit, movableRabbitPosition + 2, movableRabbitPosition)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -130,19 +142,12 @@ public class HopingRabbitsGame {
      * @return true if the game is stuck, false otherwise
      */
     boolean isStuck() {
-        String currentGameState = this.getState();
-        if (isGoal()){
-            return true;
+        String currentState = this.getState();
+        String[] movableSituations = {"x_", "xo_", "_o", "_xo"};
+        for (String movableSituation : movableSituations) {
+            if (currentState.contains(movableSituation)) { return false; }
         }
-        int movableRabbitPosition = currentGameState.indexOf("x_");
-        if (isValidPosition(movableRabbitPosition) && isValidPosition(movableRabbitPosition+1)) {
-            return true;
-        }
-        movableRabbitPosition = currentGameState.indexOf("_o");
-        if (isValidPosition(movableRabbitPosition) && isValidPosition(movableRabbitPosition+1)) {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -153,7 +158,11 @@ public class HopingRabbitsGame {
      */
     String getState() {
         StringBuilder state = new StringBuilder();
-
+        for (int i = 0; i < numPositionInGame; i++){
+            if (gameState[i] == null) state.append("_");
+            else if (gameState[i] == Rabbit.X) state.append("x");
+            else state.append("o");
+        }
         return state.toString();
     }
 
